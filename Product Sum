@@ -1,0 +1,23 @@
+
+int ProductSum(List<object> array) 
+  {
+    
+    return ProductSumHelper(array,1);
+  }
+int ProductSumHelper(List<object> array, int multiplier) 
+  {
+      int sum=0;
+      foreach(object element in array )
+      {
+          if(element is IList<object>)
+          {
+              sum +=ProductSumHelper((List<object>)element, multiplier +1);
+          }
+          else
+          {
+              sum += (int)element;
+          }
+      }
+    
+    return sum * multiplier;
+  }
