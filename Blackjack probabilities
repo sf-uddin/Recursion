@@ -1,0 +1,32 @@
+using System.Collections.Generic;
+using System;
+
+public class Program {
+    // O(t - s) time | O(t - s) space - where t is the target, and s is the
+    // starting hand
+    public double BlackjackProbability(int target, int startingHand) 
+{
+        Dictionary<int, double> memo = new Dictionary<int, double>();
+        return Math.Round(calculateProbability(target, startingHand, memo) * 1000f) / 1000f;
+    }
+
+    private double calculateProbability(int target, int currentHand, Dictionary<int, double> memo) {
+        if (memo.ContainsKey(currentHand)) {
+            return memo[currentHand];
+        }
+        if (currentHand > target) {
+            return 1;
+        }
+        if (currentHand + 4 >= target) {
+            return 0;
+        }
+
+        double totalProbability = 0;
+        for (int drawnCard = 1; drawnCard <= 10; drawnCard++) {
+            totalProbability += 0.1 * calculateProbability(target, currentHand + drawnCard, memo);
+        }
+
+        memo[currentHand] = totalProbability;
+        return totalProbability;
+    }
+}
